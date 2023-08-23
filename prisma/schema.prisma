@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model public_infos {
+  id           Int          @id(map: "infos_pk") @default(autoincrement())
+  firstName    String
+  lastName     String
+  bio          String?
+  userId       Int
+  imageUrl     String?
+  public_users public_users @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "infos_fk0")
+
+  @@map("public.infos")
+}
+
+model public_users {
+  id           Int            @id(map: "users_pk") @default(autoincrement())
+  email        String         @unique
+  password     String
+  public_infos public_infos[]
+
+  @@map("public.users")
+}
