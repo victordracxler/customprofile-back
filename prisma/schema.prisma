@@ -14,16 +14,20 @@ model public_infos {
   bio          String?
   userId       Int
   imageUrl     String?
+  linkedinUrl  String?
+  twitterUrl   String?
+  instagramUrl String?
   public_users public_users @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "infos_fk0")
 
-  @@map("public.infos")
+  @@map("infos")
 }
 
 model public_users {
   id           Int            @id(map: "users_pk") @default(autoincrement())
   email        String         @unique
   password     String
+  name         String
   public_infos public_infos[]
 
-  @@map("public.users")
+  @@map("users")
 }
