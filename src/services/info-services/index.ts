@@ -34,7 +34,6 @@ async function createInfoOnSignUp(user: public_users) {
 		lastName,
 		userId: id,
 	};
-	console.log(data);
 
 	try {
 		const createUserInfo = await infoRepository.createUserInfo(data);
@@ -50,8 +49,6 @@ async function updateUserInfoService(data, userId: number) {
 
 	try {
 		const imageUrl = await uploadImageToCloudinary(image);
-
-		console.log('a url da imagem ', imageUrl);
 
 		const newInfo = {
 			imageUrl,
@@ -79,13 +76,11 @@ async function uploadImageToCloudinary(image) {
 		image.path,
 		{ public_id: new Date() + image.originalname, width: 250 },
 		function (error, result) {
-			console.log(result);
 			imageUrl = result.secure_url;
 		}
 	);
 	fs.unlink(image.path, (err) => {
 		if (err) throw err;
-		console.log('path/file.txt was deleted');
 	});
 	return imageUrl;
 }
