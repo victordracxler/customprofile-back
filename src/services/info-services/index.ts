@@ -1,16 +1,15 @@
-import { Prisma, public_infos, public_users } from '@prisma/client';
+import { public_users } from '@prisma/client';
 import infoRepository from 'repositories/info-repository';
 import userRepository from 'repositories/users-repository';
 
 import { v2 as cloudinary } from 'cloudinary';
+import * as fs from 'fs';
 
 cloudinary.config({
 	cloud_name: process.env.CLOUD_NAME,
 	api_key: process.env.API_KEY,
 	api_secret: process.env.API_SECRET,
 });
-
-import sharp from 'sharp';
 
 async function getInfo(userId: number) {
 	try {
@@ -75,14 +74,19 @@ async function updateUserInfoService(data, userId: number) {
 
 async function uploadImageToCloudinary(image) {
 	let imageUrl = '';
+
 	await cloudinary.uploader.upload(
 		image.path,
-		{ public_id: image.originalname },
+		{ public_id: new Date() + image.originalname, width: 250 },
 		function (error, result) {
 			console.log(result);
 			imageUrl = result.secure_url;
 		}
 	);
+	fs.unlink(image.path, (err) => {
+		if (err) throw err;
+		console.log('path/file.txt was deleted');
+	});
 	return imageUrl;
 }
 
