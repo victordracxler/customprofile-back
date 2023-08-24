@@ -1,6 +1,7 @@
 import { Prisma, public_infos, public_users } from '@prisma/client';
 import infoRepository from 'repositories/info-repository';
 import userRepository from 'repositories/users-repository';
+import multer from 'multer';
 
 async function getInfo(userId: number) {
 	try {
@@ -34,9 +35,14 @@ async function createInfoOnSignUp(user: public_users) {
 	}
 }
 
+async function updateUserInfoService(data) {
+	console.log('to no service', data);
+}
+
 const infoService = {
 	getInfo,
 	createInfoOnSignUp,
+	updateUserInfoService,
 };
 
 export default infoService;

@@ -14,3 +14,12 @@ export async function getInfo(req: Request, res: Response) {
 		return res.status(httpStatus.NOT_FOUND).send(error);
 	}
 }
+
+export async function mostrarInfo(req, res: Response) {
+	const { userId } = req.params;
+	console.log('file ', req.file);
+	console.log('to no router ', req.body);
+	await infoService.updateUserInfoService(req.body);
+
+	res.send('foi');
+}
