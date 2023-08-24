@@ -2,6 +2,8 @@ import { public_users } from '@prisma/client';
 import userRepository from 'repositories/users-repository';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import infoRepository from 'repositories/info-repository';
+import infoService from 'services/info-services';
 
 async function signUp(params: SignUpParams) {
 	const userExists = await userRepository.findUserByEmail(params.email);
@@ -21,7 +23,8 @@ async function signUp(params: SignUpParams) {
 		name: params.name,
 	};
 
-	await userRepository.createUser(userData);
+	const createdUser = await userRepository.createUser(userData);
+	await infoService.createInfoOnSignUp(createdUser);
 
 	return;
 }
@@ -46,9 +49,10 @@ async function signIn(params: SignInParams) {
 		};
 
 	const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
-
+	const username = user.name;
 	return {
 		token,
+		username,
 	};
 }
 

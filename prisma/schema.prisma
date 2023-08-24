@@ -10,7 +10,7 @@ datasource db {
 model public_infos {
   id           Int          @id(map: "infos_pk") @default(autoincrement())
   firstName    String
-  lastName     String
+  lastName     String?
   bio          String?
   userId       Int
   imageUrl     String?
