@@ -14,9 +14,21 @@ async function findUserByEmail(email: string) {
 		},
 	});
 }
+
+async function getEmailByUserId(userId: number) {
+	return prisma.public_users.findUnique({
+		select: {
+			email: true,
+		},
+		where: {
+			id: userId,
+		},
+	});
+}
 const userRepository = {
 	createUser,
 	findUserByEmail,
+	getEmailByUserId,
 };
 
 export default userRepository;

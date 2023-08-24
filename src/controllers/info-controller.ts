@@ -5,7 +5,7 @@ import infoService from 'services/info-services';
 
 export async function getInfo(req: Request, res: Response) {
 	const { userId } = req.params;
-	console.log('controller de info, recebeu o userId:', userId);
+
 	try {
 		const userInfo = await infoService.getInfo(Number(userId));
 

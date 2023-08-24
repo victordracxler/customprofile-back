@@ -7,10 +7,6 @@ async function createUserInfo(data) {
 	});
 }
 
-// async function updateUserInfo(data: Prisma.public_infosUncheckedUpdateInput) {
-// 	return prisma.public_infos.update();
-// }
-
 async function getUserInfo(userId: number) {
 	return prisma.public_infos.findFirst({
 		where: {
@@ -18,6 +14,7 @@ async function getUserInfo(userId: number) {
 		},
 	});
 }
+
 const infoRepository = {
 	createUserInfo,
 	getUserInfo,

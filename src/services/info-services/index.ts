@@ -5,8 +5,10 @@ import userRepository from 'repositories/users-repository';
 async function getInfo(userId: number) {
 	try {
 		const userInfo = await infoRepository.getUserInfo(userId);
+		const userEmail = await userRepository.getEmailByUserId(userId);
 
-		return userInfo;
+		const allInfo = { ...userInfo, ...userEmail };
+		return allInfo;
 	} catch (error) {
 		console.log(error);
 	}
