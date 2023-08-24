@@ -45,19 +45,37 @@ async function createInfoOnSignUp(user: public_users) {
 }
 
 async function updateUserInfoService(data, userId: number) {
-	console.log('data no service', data);
 	const { body, image } = data;
-	let imageUrl = null;
+	const { firstName, lastName, bio, linkedinUrl, twitterUrl, instagramUrl } =
+		body;
 
-	if (data.image) {
-		console.log('dentro do service', image);
-		imageUrl = await uploadImageToCloudinary(image);
+	try {
+		const imageUrl = await uploadImageToCloudinary(image);
+
+		console.log('a url da imagem ', imageUrl);
+
+		const newInfo = {
+			imageUrl,
+			firstName,
+			lastName,
+			bio,
+			linkedinUrl,
+			twitterUrl,
+			instagramUrl,
+		};
+
+		const infoId = await infoRepository.findIdByUserId(userId);
+
+		const updated = await infoRepository.updateUserInfo(newInfo, infoId.id);
+		return updated;
+	} catch (error) {
+		console.log(error);
 	}
 }
 
 async function uploadImageToCloudinary(image) {
 	let imageUrl = '';
-	cloudinary.uploader.upload(
+	await cloudinary.uploader.upload(
 		image.path,
 		{ public_id: image.originalname },
 		function (error, result) {
