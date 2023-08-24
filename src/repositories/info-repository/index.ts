@@ -14,10 +14,30 @@ async function getUserInfo(userId: number) {
 		},
 	});
 }
+async function updateUserInfo(
+	data: Prisma.public_infosUpdateInput,
+	id: number
+) {
+	return prisma.public_infos.update({
+		where: {
+			id,
+		},
+		data: data,
+	});
+}
+
+async function findIdByUserId(userId: number) {
+	return prisma.public_infos.findFirst({
+		where: { userId },
+		select: { id: true },
+	});
+}
 
 const infoRepository = {
 	createUserInfo,
 	getUserInfo,
+	updateUserInfo,
+	findIdByUserId,
 };
 
 export default infoRepository;

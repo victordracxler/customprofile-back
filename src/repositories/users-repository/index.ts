@@ -25,10 +25,25 @@ async function getEmailByUserId(userId: number) {
 		},
 	});
 }
+
+async function updateEmailByUserId(id: number, newEmail: string) {
+	return prisma.public_users.update({
+		where: {
+			id: id,
+		},
+		select: {
+			email: true,
+		},
+		data: {
+			email: newEmail,
+		},
+	});
+}
 const userRepository = {
 	createUser,
 	findUserByEmail,
 	getEmailByUserId,
+	updateEmailByUserId,
 };
 
 export default userRepository;
