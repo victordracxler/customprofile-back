@@ -53,6 +53,7 @@ async function signIn(params: SignInParams) {
 	return {
 		token,
 		username,
+		userId: user.id,
 	};
 }
 

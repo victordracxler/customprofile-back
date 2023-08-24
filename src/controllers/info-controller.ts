@@ -1,21 +1,16 @@
 import httpStatus from 'http-status';
 import { Request, Response } from 'express';
-import authenticationService, {
-	SignUpParams,
-} from 'services/authentication-services';
+
+import infoService from 'services/info-services';
 
 export async function getInfo(req: Request, res: Response) {
-	const { email, password, name } = req.body as SignUpParams;
-
+	const { userId } = req.params;
+	console.log('controller de info, recebeu o userId:', userId);
 	try {
-		const login = await authenticationService.signUp({
-			email,
-			password,
-			name,
-		});
+		const userInfo = await infoService.getInfo(Number(userId));
 
-		return res.status(httpStatus.OK).send(login);
+		return res.status(httpStatus.OK).send(userInfo);
 	} catch (error) {
-		return res.status(httpStatus.UNAUTHORIZED).send(error);
+		return res.status(httpStatus.NOT_FOUND).send(error);
 	}
 }

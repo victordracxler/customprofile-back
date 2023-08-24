@@ -2,7 +2,7 @@ import express, { Express } from 'express';
 import cors from 'cors';
 
 import { loadEnv, connectDb, disconnectDB } from './config/index';
-import { authenticationRouter } from 'routers';
+import { authenticationRouter, infosRouter } from 'routers';
 
 loadEnv();
 
@@ -12,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(authenticationRouter);
+app.use(infosRouter);
 
 export function init(): Promise<Express> {
 	connectDb();

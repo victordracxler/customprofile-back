@@ -2,18 +2,16 @@ import { Prisma, public_infos, public_users } from '@prisma/client';
 import infoRepository from 'repositories/info-repository';
 import userRepository from 'repositories/users-repository';
 
-async function getInfo(token: string) {
-	// const userExists = await userRepository.findUserByEmail(params.email);
-	// if (userExists) {
-	// 	throw {
-	// 		name: 'ConflictError',
-	// 		message: 'This email is already signed up',
-	// 	};
-	// }
-	// // await userRepository.createUser();
-	// return;
+async function getInfo(userId: number) {
+	try {
+		const userInfo = await infoRepository.getUserInfo(userId);
+
+		return userInfo;
+	} catch (error) {
+		console.log(error);
+	}
 }
-async function createInfoOnSignUp(user) {
+async function createInfoOnSignUp(user: public_users) {
 	const { id, name } = user;
 
 	const spacePosition = name.indexOf(' ');
